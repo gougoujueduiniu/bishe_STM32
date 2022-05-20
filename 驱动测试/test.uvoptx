@@ -148,24 +148,7 @@
           <Name>(105=-1,-1,-1,-1,0)</Name>
         </SetRegEntry>
       </TargetDriverDllRegistry>
-      <Breakpoint>
-        <Bp>
-          <Number>0</Number>
-          <Type>0</Type>
-          <LineNumber>500</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>134223320</Address>
-          <ByteObject>0</ByteObject>
-          <HtxType>0</HtxType>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
-          <Filename>E:\BaiduNetdiskDownload\Keil Uvision 5.25\Keil Uvision 5.25\宸ョ▼鏂囦欢\姣曡浠ｇ爜\椹卞姩娴嬭瘯\user\main.c</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression>\\test\user/main.c\500</Expression>
-        </Bp>
-      </Breakpoint>
+      <Breakpoint/>
       <WatchWindow1>
         <Ww>
           <count>0</count>
@@ -176,6 +159,11 @@
           <count>1</count>
           <WinNumber>1</WinNumber>
           <ItemText>temp</ItemText>
+        </Ww>
+        <Ww>
+          <count>2</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>adc_num</ItemText>
         </Ww>
       </WatchWindow1>
       <WatchWindow2>
@@ -539,7 +527,7 @@
       <GroupNumber>5</GroupNumber>
       <FileNumber>21</FileNumber>
       <FileType>1</FileType>
-      <tvExp>1</tvExp>
+      <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>.\driver\usart2.c</PathWithFileName>

@@ -27,27 +27,7 @@ Project File Date:  05/16/2022
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 6 (build 750)', folder: 'E:\BaiduNetdiskDownload\Keil Uvision 5.25\Keil Uvision 5.25\ARM\ARMCC\Bin'
 Build target 'Target 1'
-compiling utils.c...
-compiling usart2.c...
-driver\usart2.c(69): warning:  #167-D: argument of type "unsigned char *" is incompatible with parameter of type "const char *"
-  	memset(usart2_rcv_buf, 0, strlen(usart2_rcv_buf));
-driver\usart2.c(98): warning:  #167-D: argument of type "char *" is incompatible with parameter of type "uint8_t *"
-          USART2_Write(USART2, cmd, strlen(cmd));
-driver\usart2.c(101): warning:  #167-D: argument of type "unsigned char *" is incompatible with parameter of type "const char *"
-          if((NULL != strstr(usart2_rcv_buf, result)))	//判断是否有预期的结果
-driver\usart2.c: 3 warnings, 0 errors
-compiling main.c...
-user\main.c(345): warning:  #167-D: argument of type "unsigned char *" is incompatible with parameter of type "char *__restrict__"
-  			sprintf(tempbuffer,"%.1f",temp+0.5);
-user\main.c(361): warning:  #167-D: argument of type "char *" is incompatible with parameter of type "unsigned char"
-  				OLED_ShowChinese(24,32,"warning",16);
-user\main.c(28): warning:  #177-D: variable "yaohe_flag"  was declared but never referenced
-  static unsigned char yaohe_flag = 0,scream_flag = 0,FSC_Offset,SSC_Offset,TSC_Offset;
-user\main.c: 3 warnings, 0 errors
-linking...
-Program Size: Code=17268 RO-data=6544 RW-data=5536 ZI-data=3808  
-FromELF: creating hex file...
-".\Objects\test.axf" - 0 Error(s), 6 Warning(s).
+".\Objects\test.axf" - 0 Error(s), 0 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -61,7 +41,7 @@ Package Vendor: Keil
   E:\BaiduNetdiskDownload\Keil Uvision 5.25\Keil Uvision 5.25\ARM\PACK\Keil\STM32F1xx_DFP\2.3.0\Device\Include
 
 <h2>Collection of Component Files used:</h2>
-Build Time Elapsed:  00:00:02
+Build Time Elapsed:  00:00:00
 </pre>
 </body>
 </html>
