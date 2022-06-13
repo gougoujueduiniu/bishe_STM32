@@ -20,6 +20,7 @@
 ".\objects\exit.o"
 ".\objects\usart2.o"
 ".\objects\utils.o"
+".\objects\timer.o"
 ".\objects\sys.o"
 --strict --scatter ".\Objects\test.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols

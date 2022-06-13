@@ -10,7 +10,7 @@
 #include "usart2.h"
 #include "utils.h"
 #include "stdio.h"
-
+#include "timer.h"
 /*
 四个按键对应ADC值
 2048    0x800
@@ -18,6 +18,14 @@
 3042    0xc00
 3275    0xccb
 */
+int fputc(int ch, FILE *f)
+{
+	USART_SendData(USART1, (uint8_t) ch);
+
+	while (USART_GetFlagStatus(USART1, USART_FLAG_TC) == RESET) {}	
+   
+  return ch;
+}
 
 char direction_flag;   //朝向
 char place[2];				//当前小车坐标
@@ -25,10 +33,11 @@ char place[2];				//当前小车坐标
 char last_state;
 char car_tmp;
 uint16_t adc_num;
-static unsigned char yaohe_flag = 0,scream_flag = 0,FSC_Offset,SSC_Offset,TSC_Offset;
+static unsigned char scream_flag = 0,FSC_Offset,SSC_Offset,TSC_Offset;
 float temp;
 u8 mima[5] = {2,4,6,8};
 char ditu[][2]={{1,1},{1,2},{2,0},{2,2}};
+char buff[64];
 
 void run(char x,char y)
 {
@@ -85,7 +94,7 @@ void run(char x,char y)
 			}
 			Go_Ahead();
 		}		
-		else if(car_tmp == 0)
+		else if(car_tmp == 0) //
 		{
 			if(last_state == ZUOYI)
 			{
@@ -103,55 +112,112 @@ void run(char x,char y)
 		else if(car_tmp == ZUOYI)
 		{
 			SET_PWM(350,550);
-//			while(!(Read_Xunji() == ZHONGJIAN));
 			last_state = ZUOYI;
 		}
 		else if(car_tmp == YOUYI)
 		{
 			SET_PWM(550,350);
 			last_state = YOUYI;
-//			while(!(Read_Xunji() == ZHONGJIAN));
 		}
 		else if(car_tmp == YOUER)
 		{
 			SET_PWM(450,350);
-//			while(!(Read_Xunji() == ZHONGJIAN));
 		}
 		else if(car_tmp == ZUOER)
 		{
 			SET_PWM(350,450);
-//			while(!(Read_Xunji() == ZHONGJIAN));
 		}
 		else if(car_tmp == ZHONGJIAN)
 		{
 			Go_Ahead();
 			last_state = ZHIXING;
 		}
-//		else
-//		{
-//			Go_Ahead();
-//		}
 	}
 }
 
 
+void Back_Door()
+{
+			if(place[0] == -1 && place[1]==0)
+			{
+				return;
+			}
+			if(place[1]!=0)
+			{
+				if(direction_flag%2==1)
+				{
+					Turn90(-1,direction_flag);
+				}
+				else if(direction_flag==NORTH)
+				{
+					Turn180();
+				}
+				run(place[0],0);	
+			}
+			if(direction_flag%2==0)
+			{
+				Turn90(-1,direction_flag);
+			}
+			else if(direction_flag==EAST)
+			{
+				Turn180();
+			}	
+			run(-1,0);
+			Turn180();
+			Stop();
+}
+
+
+
 void OpenBox()
 {
+	while(1)
+	{
+		if(GPIO_ReadInputDataBit(GPIOA,GPIO_Pin_0))
+		{
+			delay_ms(20);
+			if(GPIO_ReadInputDataBit(GPIOA,GPIO_Pin_0))
+			{
+				SendData("ok");
+				return;
+			}
+		}
+	}
+	
 	return;
 }
 
 u8 VerifyPassword(u8 *password)
 {
-	if(strlen((const char *)password) == strlen((const char *)mima)&& \
-		password[0]==mima[0] &&password[1]==mima[1] && \
-		password[2]==mima[2] &&password[3]==mima[3])
+	char buf[64];
+	u8 i=0;
+	sprintf(buf,"#B%s",password);
+	USART2_Clear();
+	flag=0;
+	SendData(buf);
+	while(!flag);
+	delay_ms(20);
+	
+	while(i<3)
 	{
-		return 1;
+		if(strstr(usart2_rcv_buf,"#H")!=NULL)
+		{
+			return 0;
+		}
+		else if(strstr(usart2_rcv_buf,"#F")!=NULL)
+		{
+			return 1;
+		}
+		i++;
+		OLED_ShowString(16,32,"verifing",16);
+		OLED_ShowNum(88,32,i,1,16);
+		OLED_Refresh();
+		delay_ms(1000);
+		OLED_ClearArea(0,32,128,48);
+		OLED_Refresh();
 	}
-	else
-	{
-		return 0;
-	}
+	
+	return 0;
 }
 
 
@@ -247,33 +313,7 @@ void Show_thirdscream()
 			OLED_Clear();
 			TSC_Offset = 0;
 			while(GET_ADConverter()>0xf00);
-			if(place[0] == -1 && place[1]==0)
-			{
-				break;
-			}
-			if(place[1]!=0)
-			{
-				if(direction_flag%2==1)
-				{
-					Turn90(-1,direction_flag);
-				}
-				else if(direction_flag==NORTH)
-				{
-					Turn180();
-				}
-				run(place[0],0);	
-			}
-			if(direction_flag%2==0)
-			{
-				Turn90(-1,direction_flag);
-			}
-			else if(direction_flag==EAST)
-			{
-				Turn180();
-			}	
-			run(-1,0);
-			Turn180();
-			Stop();
+			Back_Door();
 			return;
 		}
 		else if(adc_num - 0xcab > 0 && adc_num < 0xf00) //确认
@@ -358,7 +398,7 @@ void Show_SecondScream()
 			}
 			else
 			{
-				OLED_ShowChinese(24,32,"warning",16);
+				OLED_ShowString(24,32,"warning",16);
 				delay_ms(1000);
 				OLED_Clear();
 			}
@@ -408,7 +448,7 @@ void Show_SecondScream()
 					{
 						OLED_ShowChar(i*9,32,SSC_Offset+0x30,16);	
 						OLED_Refresh();
-						password[i] = SSC_Offset;
+						password[i] = SSC_Offset+48;
 						i++;
 					}
 				}
@@ -428,10 +468,10 @@ void Show_SecondScream()
 					{
 						scream_flag = 0;
 						FSC_Offset = 0;
-						SSC_Offset = 0;
-						OpenBox();
+						SSC_Offset = 0;						
 						OLED_ShowString(32,32,"Ture",16);
 						OLED_Refresh();
+						OpenBox();
 						delay_ms(1000);
 						OLED_Clear();
 						return;
@@ -465,6 +505,33 @@ void Show_SecondScream()
 }
 
 
+void Esp8266_Init()
+{
+	SendCmd("AT\r\n","\0",3000);
+	GPIOC->ODR ^= (uint16_t)1<<13;
+	delay_ms(1000);
+	GPIOC->ODR ^= (uint16_t)1<<13;
+	SendCmd("AT+CWMODE=1\r\n","\0",3000);
+	SendCmd("AT+CWJAP_DEF=\"5113\",\"zxc511511\"\r\n","\0",3000);
+	OLED_ShowString(0,0,"WIFI",16);
+	OLED_ShowString(0,16,"CONNECTED",16);
+	OLED_Refresh();
+	SendCmd("AT+CIPMUX=0\r\n","\0",3000);
+	SendCmd(IP_PORT,"OK",3000);
+	SendData("#1");
+	OLED_ShowString(0,32,"SERVER",16);
+	OLED_ShowString(0,48,"CONNECTED",16);	
+	OLED_Refresh();
+	GPIOC->ODR ^= (uint16_t)1<<13;
+	delay_ms(500);
+	GPIOC->ODR ^= (uint16_t)1<<13;
+	delay_ms(500);
+	GPIOC->ODR ^= (uint16_t)1<<13;
+	
+//	TIM_ITConfig(TIM3, TIM_IT_Update, ENABLE );	//使能或者失能指定的TIM中断
+}
+
+
 int main()
 {
 	delay_init(72);
@@ -472,20 +539,21 @@ int main()
 	Exit_Init();
 	Xunji_Init();
 	Driver_Init(999,71);  // 999 71
+	Time_Init();
 	SMBus_Init();
 	AdcKey_Init();	
-//	USART2_Config();
-//	Esp8266_Init();
+	USART2_Config();	
 	OLED_Init();
 	OLED_ColorTurn(0);//0正常显示，1 反色显示
   OLED_DisplayTurn(0);//0正常显示 1 屏幕翻转显示
 	direction_flag = 1;
+	Esp8266_Init();
 	place[0] = -1;
 	place[1] = 0;
 	GPIOC->BSRR = GPIO_Pin_13;
 	delay_ms(1000);
 	GPIO_ResetBits(GPIOC,GPIO_Pin_13);
-	
+	OLED_Clear();
 	while(1)
 	{
 		switch (scream_flag)
@@ -499,22 +567,59 @@ int main()
 }
 
 
-
 //药盒检测中断函数
-void EXTI2_IRQHandler(void)
+
+
+void TIM3_IRQHandler()	 //定时器3中断函数
 {
-	if(EXTI_GetITStatus(EXTI_Line2)==SET)
+	char buf[8];
+	
+	if(flag == 1)
 	{
-////		GPIOC->ODR^=(uint16_t)1<<13;
-//		if(GPIOC->ODR & GPIO_Pin_13)
-//		{
-//			GPIO_ResetBits(GPIOC,GPIO_Pin_13);
-//		}
-//		else
-//		{
-//			GPIO_SetBits(GPIOC,GPIO_Pin_13);
-//		}
-		EXTI_ClearITPendingBit(EXTI_Line2);
+		USART2_GetRcvData(buff,strlen(usart2_rcv_buf));
+		flag = 0;
+		USART2_Clear();
+		SendData(buff);
+		memset(buff,0,64);
 	}
+	else
+	{
+		sprintf(buf,"#C(%d,%d)",place[0],place[1]);
+		USART2_Clear();
+		SendData(buf);
+	}
+
+	TIM_ClearITPendingBit(TIM3,TIM_IT_Update);
+}
+
+
+//药盒检测函数
+void EXTI0_IRQHandler()
+{
+	delay_ms(20);
+	if(!GPIO_ReadInputDataBit(GPIOA,GPIO_Pin_0))
+	{
+		if(yaohe == 1)
+		{
+			SendData("ok");
+			yaohe = 0;
+		}
+	}
+	
+	EXTI_ClearITPendingBit(EXTI_Line0);
+}
+
+
+//避障中断
+void EXTI1_IRQHandler()
+{
+	delay_ms(20);
+	if(!GPIO_ReadInputDataBit(GPIOA,GPIO_Pin_1))
+	{
+		Stop();
+		while(!GPIO_ReadInputDataBit(GPIOA,GPIO_Pin_1));
+	}
+	
+	EXTI_ClearITPendingBit(EXTI_Line1);
 }
 

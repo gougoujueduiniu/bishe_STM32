@@ -10,11 +10,11 @@ void hexdump(const unsigned char *buf, uint32_t num)
     uint32_t i = 0;
     for (; i < num; i++)
     {
-        printf("%02X ", buf[i]);
-        if ((i + 1) % 8 == 0)
-            printf("\r\n");
+//        printf("%02X ", buf[i]);
+        
+//            printf("\r\n");
     }
-    printf("\r\n");
+//    printf("\r\n");
 }
 
 unsigned char prvucMBBIN2CHAR(unsigned char ucByte)

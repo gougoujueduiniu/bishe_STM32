@@ -10,11 +10,16 @@
 #include "utils.h"
 #include "delay.h"
 
+
 volatile unsigned char  gprs_ready_flag = 0;
 volatile unsigned char  gprs_ready_count = 0;
 
 unsigned char  usart2_rcv_buf[MAX_RCV_LEN];
 volatile unsigned int   usart2_rcv_len = 0;
+
+unsigned char flag;
+unsigned char yaohe;
+
 
 /*
  *  @brief USART2初始化函数
@@ -158,10 +163,25 @@ void USART2_IRQHandler(void)
     }
     else if(USART2->SR & USART_FLAG_RXNE)   //Receive Data Reg Full Flag
     {
-        //GPIO_SetBits(GPIOC,GPIO_Pin_0|GPIO_Pin_1|GPIO_Pin_2|GPIO_Pin_3);
-        data = USART2->DR;
-        usart2_rcv_buf[usart2_rcv_len++] = data;
-		if(usart2_rcv_len >= MAX_RCV_LEN - 1)
+      //GPIO_SetBits(GPIOC,GPIO_Pin_0|GPIO_Pin_1|GPIO_Pin_2|GPIO_Pin_3);
+      data = USART2->DR;
+      usart2_rcv_buf[usart2_rcv_len] = data;
+			if(flag == 1)
+			{
+				if(usart2_rcv_buf[usart2_rcv_len]=='D')
+				{
+					flag = 0;
+					yaohe = 1;
+				}
+			}
+
+			if(usart2_rcv_buf[usart2_rcv_len]=='#')
+			{
+				flag = 1;
+			}
+			
+			usart2_rcv_len++;
+			if(usart2_rcv_len >= MAX_RCV_LEN - 1)
 			usart2_rcv_len = 0;
         //usart1_rcv_buf[usart1_rcv_len++]=data;
         //usart1_putrxchar(data);       //Insert received character into buffer
@@ -173,23 +193,21 @@ void USART2_IRQHandler(void)
 #endif
 }
 
-
-
-
-void Esp8266_Init()
+void SendData(char *buf)
 {
-	SendCmd("AT\r\n","OK",3000);
-	GPIOC->ODR ^= (uint16_t)1<<13;
-	delay_ms(1000);
-	GPIOC->ODR ^= (uint16_t)1<<13;
-	SendCmd("AT+CWMODE=1\r\n","OK",3000);
-	SendCmd("AT+CWJAP_DEF=\"5113\",\"zxc511511\"\r\n","OK",3000);
-	SendCmd("AT+CIPMUX=0\r\n","OK",3000);
-	SendCmd("AT+CIPSTART=\"TCP\",\"192.168.0.117\",50000\r\n","OK",3000);
-	GPIOC->ODR ^= (uint16_t)1<<13;
-	delay_ms(500);
-	GPIOC->ODR ^= (uint16_t)1<<13;
-	delay_ms(500);
-	GPIOC->ODR ^= (uint16_t)1<<13;
+	unsigned int i;
+	char tempbuff[32] = {0};
+  char c_buf[256]={0};
+	
+	i=strlen(buf);
+
+	sprintf(c_buf,"%s\r\n",buf);
+	i+=2;
+	sprintf(tempbuff,"AT+CIPSEND=%d\r\n",i);
+	SendCmd(tempbuff,"\0",1000);
+	USART2_Write(USART2,c_buf,i);
+//	printf("send esp8266: %s\n",c_buf);
 }
+
+
 

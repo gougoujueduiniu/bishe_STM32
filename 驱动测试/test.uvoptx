@@ -148,7 +148,56 @@
           <Name>(105=-1,-1,-1,-1,0)</Name>
         </SetRegEntry>
       </TargetDriverDllRegistry>
-      <Breakpoint/>
+      <Breakpoint>
+        <Bp>
+          <Number>0</Number>
+          <Type>0</Type>
+          <LineNumber>598</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>134224342</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>E:\BaiduNetdiskDownload\Keil Uvision 5.25\Keil Uvision 5.25\宸ョ▼鏂囦欢\姣曡浠ｇ爜\椹卞姩娴嬭瘯\user\main.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression>\\test\user/main.c\598</Expression>
+        </Bp>
+        <Bp>
+          <Number>1</Number>
+          <Type>0</Type>
+          <LineNumber>615</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>134224402</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>E:\BaiduNetdiskDownload\Keil Uvision 5.25\Keil Uvision 5.25\宸ョ▼鏂囦欢\姣曡浠ｇ爜\椹卞姩娴嬭瘯\user\main.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression>\\test\user/main.c\615</Expression>
+        </Bp>
+        <Bp>
+          <Number>2</Number>
+          <Type>0</Type>
+          <LineNumber>521</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>134224730</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>E:\BaiduNetdiskDownload\Keil Uvision 5.25\Keil Uvision 5.25\宸ョ▼鏂囦欢\姣曡浠ｇ爜\椹卞姩娴嬭瘯\user\main.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression>\\test\user/main.c\521</Expression>
+        </Bp>
+      </Breakpoint>
       <WatchWindow1>
         <Ww>
           <count>0</count>
@@ -176,6 +225,11 @@
           <count>1</count>
           <WinNumber>2</WinNumber>
           <ItemText>i</ItemText>
+        </Ww>
+        <Ww>
+          <count>2</count>
+          <WinNumber>2</WinNumber>
+          <ItemText>yaohe</ItemText>
         </Ww>
       </WatchWindow2>
       <MemoryWindow1>
@@ -547,6 +601,18 @@
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
+    <File>
+      <GroupNumber>5</GroupNumber>
+      <FileNumber>23</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>.\driver\timer.c</PathWithFileName>
+      <FilenameWithoutPath>timer.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
   </Group>
 
   <Group>
@@ -557,7 +623,7 @@
     <RteFlg>0</RteFlg>
     <File>
       <GroupNumber>6</GroupNumber>
-      <FileNumber>23</FileNumber>
+      <FileNumber>24</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>

@@ -42,3 +42,4 @@
 .\objects\main.o: .\driver\usart2.h
 .\objects\main.o: .\driver\utils.h
 .\objects\main.o: E:\BaiduNetdiskDownload\Keil Uvision 5.25\Keil Uvision 5.25\ARM\ARMCC\Bin\..\include\stdio.h
+.\objects\main.o: .\driver\timer.h

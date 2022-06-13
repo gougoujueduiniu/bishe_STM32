@@ -5,13 +5,7 @@ void Xunji_Init()
 {
 	GPIO_InitTypeDef GPIO_Initstruct;	
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA,ENABLE);
-	
-//	RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO ,ENABLE);
-
-// 
-
-////  GPIO_PinRemapConfig(GPIO_Remap_SWJ_Disable,ENABLE);
-//	
+		
 	GPIO_Initstruct.GPIO_Pin = GPIO_Pin_8|GPIO_Pin_9|GPIO_Pin_10|GPIO_Pin_11;
 	GPIO_Initstruct.GPIO_Mode = GPIO_Mode_IN_FLOATING;
 	GPIO_Initstruct.GPIO_Speed = GPIO_Speed_2MHz;
@@ -34,7 +28,6 @@ char Read_Xunji()
 	tmp = GPIOA->IDR;
 	tmp &= 0x0700;
 	ch = tmp>>8;
-//	ch = tmp ^ 0x1f;
 	
 	return ch;
 }

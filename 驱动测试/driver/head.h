@@ -24,5 +24,7 @@
 #define ZHOANGYAO    3
 #define XIAOHUA      4
 
+#define IP_PORT   "AT+CIPSTART=\"TCP\",\"192.168.0.121\",50000\r\n"
+
 
 #endif
