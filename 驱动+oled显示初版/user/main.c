@@ -352,19 +352,19 @@ int main()
 	delay_init(72);
 	Xunji_Init();
 	Driver_Init(999,71);  // 999 71
-//	SMBus_Init();
-//	AdcKey_Init();	
-//	OLED_Init();
-//	OLED_ColorTurn(0);//0正常显示，1 反色显示
-//  OLED_DisplayTurn(0);//0正常显示 1 屏幕翻转显示
+	SMBus_Init();
+	AdcKey_Init();	
+	OLED_Init();
+	OLED_ColorTurn(0);//0正常显示，1 反色显示
+  OLED_DisplayTurn(0);//0正常显示 1 屏幕翻转显示
 	while(1)
 	{
-//		switch (scream_flag)
-//		{
-//			case 0: Show_FirstScream();break;
-//			case 1: Show_SecondScream();break;
-//		}
-		run();
+		switch (scream_flag)
+		{
+			case 0: Show_FirstScream();break;
+			case 1: Show_SecondScream();break;
+		}
+//		run();
 //		delay_ms(1000);
 //		OLED_Refresh();
 		

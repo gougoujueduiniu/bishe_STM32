@@ -44,6 +44,15 @@ void run(char x,char y)
 	Go_Ahead();
 	while(1)
 	{
+		if(!GPIO_ReadInputDataBit(GPIOA,GPIO_Pin_1))
+		{
+			Stop();
+			continue;
+		}
+		else
+		{
+			Go_Ahead();
+		}
 		car_tmp = Read_Xunji();
 //*****************检测到交叉口后系统运行流程**********************
 //1.根据当前车的朝向给对应的横纵坐标加减
@@ -611,15 +620,15 @@ void EXTI0_IRQHandler()
 
 
 //避障中断
-void EXTI1_IRQHandler()
-{
-	delay_ms(20);
-	if(!GPIO_ReadInputDataBit(GPIOA,GPIO_Pin_1))
-	{
-		Stop();
-		while(!GPIO_ReadInputDataBit(GPIOA,GPIO_Pin_1));
-	}
-	
-	EXTI_ClearITPendingBit(EXTI_Line1);
-}
+//void EXTI1_IRQHandler()
+//{
+//	delay_ms(20);
+//	if(!GPIO_ReadInputDataBit(GPIOA,GPIO_Pin_1))
+//	{
+//		Stop();
+//		while(!GPIO_ReadInputDataBit(GPIOA,GPIO_Pin_1));
+//	}
+//	
+//	EXTI_ClearITPendingBit(EXTI_Line1);
+//}
 

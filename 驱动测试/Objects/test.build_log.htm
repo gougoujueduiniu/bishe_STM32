@@ -28,21 +28,21 @@ Project File Date:  06/12/2022
 *** Using Compiler 'V5.06 update 6 (build 750)', folder: 'E:\BaiduNetdiskDownload\Keil Uvision 5.25\Keil Uvision 5.25\ARM\ARMCC\Bin'
 Build target 'Target 1'
 compiling main.c...
-user\main.c(187): warning:  #111-D: statement is unreachable
+user\main.c(196): warning:  #111-D: statement is unreachable
   	return;
-user\main.c(203): warning:  #167-D: argument of type "unsigned char *" is incompatible with parameter of type "const char *"
+user\main.c(212): warning:  #167-D: argument of type "unsigned char *" is incompatible with parameter of type "const char *"
   		if(strstr(usart2_rcv_buf,"#H")!=NULL)
-user\main.c(207): warning:  #167-D: argument of type "unsigned char *" is incompatible with parameter of type "const char *"
+user\main.c(216): warning:  #167-D: argument of type "unsigned char *" is incompatible with parameter of type "const char *"
   		else if(strstr(usart2_rcv_buf,"#F")!=NULL)
-user\main.c(385): warning:  #167-D: argument of type "unsigned char *" is incompatible with parameter of type "char *__restrict__"
+user\main.c(394): warning:  #167-D: argument of type "unsigned char *" is incompatible with parameter of type "char *__restrict__"
   			sprintf(tempbuffer,"%.1f",temp+0.5);
-user\main.c(579): warning:  #167-D: argument of type "unsigned char *" is incompatible with parameter of type "const char *"
+user\main.c(588): warning:  #167-D: argument of type "unsigned char *" is incompatible with parameter of type "const char *"
   		USART2_GetRcvData(buff,strlen(usart2_rcv_buf));
-user\main.c(579): warning:  #167-D: argument of type "char *" is incompatible with parameter of type "uint8_t *"
+user\main.c(588): warning:  #167-D: argument of type "char *" is incompatible with parameter of type "uint8_t *"
   		USART2_GetRcvData(buff,strlen(usart2_rcv_buf));
 user\main.c: 6 warnings, 0 errors
 linking...
-Program Size: Code=18792 RO-data=6524 RW-data=5536 ZI-data=3872  
+Program Size: Code=18740 RO-data=6524 RW-data=5536 ZI-data=3872  
 FromELF: creating hex file...
 ".\Objects\test.axf" - 0 Error(s), 6 Warning(s).
 
@@ -58,7 +58,7 @@ Package Vendor: Keil
   E:\BaiduNetdiskDownload\Keil Uvision 5.25\Keil Uvision 5.25\ARM\PACK\Keil\STM32F1xx_DFP\2.3.0\Device\Include
 
 <h2>Collection of Component Files used:</h2>
-Build Time Elapsed:  00:00:05
+Build Time Elapsed:  00:00:01
 </pre>
 </body>
 </html>
